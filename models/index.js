@@ -10,9 +10,9 @@ const sequelize = new Sequelize(config.db.database, config.db.username, config.d
 });
 
 // Import models
-const User = require('./User')(sequelize, DataTypes);
-const Restaurant = require('./Restaurant')(sequelize, DataTypes);
-const Rating = require('./Rating')(sequelize, DataTypes);
+const User = require('./user')(sequelize, DataTypes);
+const Restaurant = require('./restaurant')(sequelize, DataTypes);
+const Rating = require('./rating')(sequelize, DataTypes);
 
 // Define associations
 const defineAssociations = () => {
