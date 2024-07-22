@@ -4,10 +4,14 @@ const { Restaurant } = require('../models');
 const { authenticateToken, authorizeRole } = require('../middleware/auth');
 
 // Middleware to authenticate and authorize admin
+// Middleware ini digunakan untuk mengautentikasi token dari pengguna
+// dan memastikan bahwa hanya pengguna dengan peran 'admin' yang dapat mengakses endpoint berikutnya.
 router.use(authenticateToken);
 router.use(authorizeRole('admin'));
 
 // Get all restaurants
+// Endpoint ini digunakan untuk mendapatkan semua data restoran.
+// Hanya dapat diakses oleh pengguna yang telah diautentikasi dan memiliki peran admin.
 router.get('/restaurants', async (req, res) => {
     try {
         const restaurants = await Restaurant.findAll();
@@ -18,6 +22,8 @@ router.get('/restaurants', async (req, res) => {
 });
 
 // Add restaurant
+// Endpoint ini digunakan untuk menambahkan data restoran baru.
+// Hanya dapat diakses oleh pengguna yang telah diautentikasi dan memiliki peran admin.
 router.post('/restaurants', async (req, res) => {
     const { name, owner, address, mapAddress } = req.body;
     try {
@@ -29,6 +35,8 @@ router.post('/restaurants', async (req, res) => {
 });
 
 // Edit restaurant
+// Endpoint ini digunakan untuk mengedit data restoran berdasarkan ID.
+// Hanya dapat diakses oleh pengguna yang telah diautentikasi dan memiliki peran admin.
 router.put('/restaurants/:id', async (req, res) => {
     const { id } = req.params;
     const { name, owner, address, mapAddress, status } = req.body;

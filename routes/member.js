@@ -4,10 +4,14 @@ const { Restaurant, Rating } = require('../models');
 const { authenticateToken, authorizeRole } = require('../middleware/auth');
 
 // Middleware to authenticate and authorize member
+// Middleware ini digunakan untuk mengautentikasi token dari pengguna
+// dan memastikan bahwa hanya pengguna dengan peran 'member' yang dapat mengakses endpoint berikutnya.
 router.use(authenticateToken);
 router.use(authorizeRole('member'));
 
 // GET /ratings/:restaurantId
+// Endpoint ini digunakan untuk mendapatkan semua rating dari restoran tertentu berdasarkan restaurantId.
+// Hanya dapat diakses oleh pengguna yang telah diautentikasi dan memiliki peran member.
 router.get('/ratings/:restaurantId', async (req, res) => {
     try {
         const { restaurantId } = req.params;
