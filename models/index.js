@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const config = require('../config');
 
+// Initialize Sequelize with configuration
 const sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, {
     host: config.db.host,
     port: config.db.port,
@@ -22,15 +23,8 @@ const defineAssociations = () => {
 // Function to sync the database
 const syncDatabase = async () => {
     try {
-        // Disable foreign key checks
-        await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
-
-        // Sync models with force option (this will drop and recreate tables)
+        // Sync models with alter option (this updates the schema without dropping tables)
         await sequelize.sync({ alter: true });
-
-        // Enable foreign key checks
-        await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
-
         console.log('Database synchronized');
     } catch (error) {
         console.error('Error synchronizing database:', error);
@@ -42,9 +36,11 @@ const syncDatabase = async () => {
     try {
         await sequelize.authenticate();
         console.log('Database connected');
-        
+
+        // Define associations
         defineAssociations();
-        
+
+        // Sync the database
         await syncDatabase();
     } catch (error) {
         console.error('Unable to connect to the database:', error);
